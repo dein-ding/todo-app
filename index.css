@@ -230,6 +230,7 @@ main {
 
     min-width: 9rem;
     min-width: max(max-content, 9rem); /* comment out for resizing to work properly */
+    width: max-content;
     max-width: 17rem;
     resize: horizontal;
     overflow: auto;

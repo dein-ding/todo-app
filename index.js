@@ -468,7 +468,7 @@ const TODO = {
             listTitle.innerHTML = `
                 ${TODO.taskLists.active.name}
                 <i class="fas fa-pencil-alt btn btn-primary btn-icon"
-                    style="cursor:pointer; padding: unset; transform: translateY(-3px);"
+                    style="cursor:pointer; padding: unset; position: relative; top: -3px;"
                     onclick="TODO.taskLists.editList('${TODO.taskLists.active.id}')">
                 </i>
             `;
