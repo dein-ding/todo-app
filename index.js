@@ -409,8 +409,8 @@ const TODO = {
                     ${ task.subTasks.length != 0 ? `
                         <p class="dropdown-toggle ${task.collapseSubtaskList ? "" : "open"}" onclick="TODO.task.subtaskList.toggle('${task.id}', this)">
                             <i class="fas fa-chevron-down"></i> ${task.subTasks.length} subtask${task.subTasks.length == 1 ? "" : 's'}
-                        </p>` : ""
-                    }
+                        </p>
+                    ` : ""}
                 </div>
                 <div class="btn-group">
                     <button
@@ -442,10 +442,6 @@ const TODO = {
                 ? `<ul class="subtask-list subtask-list-${task.id} ${task.collapseSubtaskList ? "hide" : ""}">${TODO.taskLists.getListHtmlString(task.subTasks)}</ul>`
                 : ""}
         `, //prettier-ignore
-        // ${task.metaData.links ? task.metaData.links.map(link => `<a href="${link}"><i class="fas fa-external-link"></i>`) : ""}
-        /**
-         * @param {{name: string, id: string, isCompleted: boolean, timeCompleted: Date, isSubTask: boolean, subTasks: []}[]} taskList
-         */
         displayList: (taskList = TODO.taskLists.active.list) => {
             // TODO.task.migrateAll( taskList, "metaData", {
             //     links: [""],
@@ -495,14 +491,14 @@ const TODO = {
             }
 
             const activeListId = TODO.data.activeListId;
-            taskListsList.innerHTML = TODO.data.lists.map(list =>
-                `<li onclick="TODO.taskLists.setActiveList('${list.id}')" ${
-                    activeListId == list.id ? 'class="active"' : ""
-                }>${list.name} <span style="color: var(--danger-clr);">${
-                    list.list.filter(task => !task.isCompleted).length || ""
-                }</span> <i class="fas fa-chevron-right"></i></li>`
-            )
-            .join("\n"); //prettier-ignore
+            taskListsList.innerHTML = TODO.data.lists
+                .map(list =>
+                    `<li onclick="TODO.taskLists.setActiveList('${list.id}')" ${
+                        activeListId == list.id ? 'class="active"' : ""
+                    }>${list.name} <span style="color: var(--danger-clr); opacity: .7;">${
+                        list.list.filter(task => !task.isCompleted).length || ""
+                    }</span> <i class="fas fa-chevron-right"></i></li>`
+                ).join("\n"); //prettier-ignore
         },
     },
     XSSenabled: false,
@@ -512,6 +508,7 @@ const TODO = {
         else TODO.XSSenabled = !TODO.XSSenabled;
 
         TODO.taskLists.displayList();
+        TODO.taskLists.displayListsInSidebar();
     },
     db: {
         localStorageKey: "todoListData",
@@ -522,15 +519,7 @@ const TODO = {
                 lists: [newList],
             };
         },
-        save() {
-            const taskLists = TODO.data.lists;
-            // if (!taskLists || taskLists.length == 0) {
-            //     console.log(TODO.data);
-            //     TODO.data = TODO.db.getDefaultData();
-            //     TODO.taskLists.active = TODO.taskLists.getActiveList();
-            // }
-            localStorage[TODO.db.localStorageKey] = JSON.stringify(TODO.data);
-        },
+        save: () => (localStorage[TODO.db.localStorageKey] = JSON.stringify(TODO.data)),
         exportJson: () => downloadObjectAsJson(TODO.data, "ToDo-data", true),
         load: () => {
             try {
