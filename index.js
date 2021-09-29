@@ -2,28 +2,33 @@ const nameInput = document.querySelector("#nameInput");
 const outputList = document.querySelector(".output ul");
 const listTitle = document.querySelector(".heading");
 
+class Task {
+    constructor(name) {
+        this.name = name;
+        this.id = TODO.sub.generateId();
+    }
+    priority = 0;
+    isCompleted = false;
+    timeCompleted = null;
+    metaData = {
+        links: [],
+        notes: "",
+    };
+    collapseSubtaskList = false;
+    subTasks = [];
+}
+class List {
+    constructor(name = "ToDo") {
+        this.name = name;
+        this.id = TODO.sub.generateId();
+    }
+    metaData = {
+        notes: "",
+    };
+    list = [];
+}
 const TODO = {
     task: {
-        /**
-         * ## Get task object
-         * @param {string} taskName
-         * @param {boolean} isSubTask wether it is a subtask to be created or not
-         * @returns {object}
-         */
-        getObj: (taskName, isSubTask = false) => ({
-            name: taskName,
-            id: TODO.sub.generateId(),
-            priority: 0,
-            isCompleted: false,
-            timeCompleted: null,
-            metaData: {
-                links: [],
-                notes: "",
-            },
-            isSubTask: isSubTask,
-            collapseSubtaskList: false,
-            subTasks: [],
-        }),
         getById(taskId, taskList, args = {}) {
             const defaults = {
                 parent: false,
@@ -116,7 +121,7 @@ const TODO = {
             if (!nameInput.value) return;
             if (TODO.data.lists.length == 0) alert("You don't have any lists.");
 
-            TODO.taskLists.active.list.push(TODO.task.getObj(nameInput.value));
+            TODO.taskLists.active.list.push(new Task(nameInput.value));
             TODO.taskLists.displayList();
             TODO.taskLists.displayListsInSidebar();
 
@@ -126,7 +131,7 @@ const TODO = {
             const taskName = prompt("sub task name");
             if (!taskName) return;
 
-            TODO.task.getById_Slim(id, TODO.taskLists.active.list).subTasks.push(TODO.task.getObj(taskName, true));
+            TODO.task.getById_Slim(id, TODO.taskLists.active.list).subTasks.push(new Task(taskName));
             TODO.taskLists.displayList();
         },
         subtaskList: {
@@ -308,21 +313,11 @@ const TODO = {
     },
     taskLists: {
         active: null,
-        getListObj: (newListName = "ToDo") => ({
-            name: newListName,
-            id: TODO.sub.generateId(),
-            metaData: {
-                notes: "",
-            },
-            list: [],
-        }),
         getListById: listId => TODO.data.lists.filter(listObj => listObj.id == listId)[0],
         getActiveList() {
             const activeList = TODO.taskLists.getListById(TODO.data.activeListId);
-            const activeListName = activeList.name;
-            // console.log(activeListName);
+            // console.log(activeList.name);
             // console.log(activeList);
-
             return activeList;
         },
         setActiveList(listId) {
@@ -342,7 +337,7 @@ const TODO = {
         createList(newListName) {
             newListName = newListName || prompt("new list name");
             if (!newListName) return;
-            const newList = TODO.taskLists.getListObj(newListName);
+            const newList = new List(newListName);
             TODO.data.lists.push(newList);
             TODO.taskLists.setActiveList(newList.id);
             TODO.taskLists.displayListsInSidebar();
@@ -513,7 +508,7 @@ const TODO = {
     db: {
         localStorageKey: "todoListData",
         getDefaultData: () => {
-            const newList = TODO.taskLists.getListObj();
+            const newList = new List();
             return {
                 activeListId: newList.id,
                 lists: [newList],
