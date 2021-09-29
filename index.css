@@ -2,6 +2,8 @@
     --primary-clr-hue: 44;
     --primary-clr: hsl(var(--primary-clr-hue), 100%, 50%);
 
+    --test: hsl(103, 100%, 50%);
+
     --danger-clr-hue: 0;
     --danger-clr: hsl(var(--danger-clr-hue), 100%, 50%);
 
@@ -90,6 +92,10 @@ input,
 .btn-primary {
     --color-hue: var(--primary-clr-hue);
     --color: var(--primary-clr);
+}
+.btn-secondary {
+    --color-hue: var(--secondary-clr-hue);
+    --color: var(--secondary-clr);
 }
 .btn-edit {
     --color-hue: var(--primary-clr-hue);
@@ -337,6 +343,10 @@ section.output {
     filter: opacity(0);
     pointer-events: none;
 }
+.edit-menu-container.show {
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+}
 .edit-menu-container {
     position: fixed;
     inset: 0;
@@ -347,7 +357,7 @@ section.output {
     justify-content: center;
     align-items: center;
 
-    background: rgba(27, 27, 27, 0.493);
+    background: rgba(27, 27, 27, 0.5);
     transition: 300ms;
 }
 .edit-menu {
