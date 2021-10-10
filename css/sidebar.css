@@ -1,0 +1,66 @@
+.sidebar {
+    position: relative;
+    min-height: 40vh;
+    height: max-content;
+
+    min-width: 9rem;
+    min-width: max(max-content, 9rem); /* comment out for resizing to work properly */
+    width: max-content;
+    max-width: 17rem;
+    resize: horizontal;
+    overflow: auto;
+
+    border-radius: 10px;
+    --margin-top: 140px;
+    margin: var(--margin-top) 20px 0 0;
+    padding: 20px;
+    padding-bottom: 60px;
+
+    background: hsla(var(--bg-clr-hue), 14%, 20%, 0.158);
+    box-shadow: var(--box-shadow-s);
+}
+.sidebar h2 {
+    margin-top: 0;
+}
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.sidebar li {
+    position: relative;
+    background: hsla(var(--bg-clr-hue), 19%, 25%, 0.366);
+    padding: 10px;
+    padding-right: 2rem;
+    border-radius: 6px;
+    cursor: pointer;
+
+    box-shadow: var(--box-shadow-s);
+    transition: 180ms;
+}
+.sidebar li + li {
+    margin-top: 5px;
+}
+.sidebar li:hover {
+    filter: brightness(1.2);
+}
+.sidebar li:not(.active) i {
+    display: none;
+}
+.sidebar #taskListsList li.active i {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    margin-left: 20px;
+    float: right;
+    filter: opacity(0.6);
+}
+.sidebar li:nth-child(2n) {
+    background: hsla(var(--bg-clr-hue), 20%, 40%, 0.342);
+}
+.file-interaction {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+}

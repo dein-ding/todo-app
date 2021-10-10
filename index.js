@@ -1,7 +1,7 @@
 const nameInput = document.querySelector("#nameInput");
 const outputList = document.querySelector(".output ul");
 const listTitle = document.querySelector(".heading");
-
+    
 class Task {
     constructor(name) {
         this.name = name.replace(/->/g, "→").replace(/<-/g, "←");
