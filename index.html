@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.13.0/css/all.css" />
+        <!-- for offline development -->
+        <link rel="stylesheet" href="./fontAwsome/css/all.css" />
+        <title>Todo App</title>
+        <style>
+            @import url(./css/main.css);
+            @import url(./css/task-list.css);
+            @import url(./css/sidebar.css);
+            @import url(./css/edit-menu.css);
+        </style>
+        <script defer src="./index.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="sidebar">
+                <h2>
+                    Lists <i class="fad fa-clipboard-list-check"></i
+                    ><button class="btn btn-primary btn-icon" style="float: right" onclick="TODO.taskLists.createList();">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </h2>
+                <ul id="taskListsList">
+                    <h5 style="text-align: center">No lists...</h5>
+                </ul>
+                <div class="file-interaction">
+                    <button
+                        class="btn btn-primary btn-icon download-btn"
+                        title="Download lists as JSON file"
+                        onclick="TODO.db.exportJson();"
+                    >
+                        <i class="far fa-download"></i>
+                    </button>
+                    <label
+                        class="btn btn-primary btn-icon upload-btn"
+                        title="Import lists from JSON file"
+                        style="padding: unset"
+                    >
+                        <i class="fas fa-file-import"></i>
+                        <input
+                            id="importDataInput"
+                            style="display: none"
+                            type="file"
+                            accept="application/json"
+                            onchange="TODO.db.importJson()"
+                        />
+                    </label>
+                </div>
+            </div>
+            <main>
+                <h1 class="heading">no list selected</h1>
+                <section class="input">
+                    <input type="text" placeholder="What shall it be?" id="nameInput" class="nameInput" />
+                    <button class="btn btn-primary btn-add" onclick="TODO.task.add()">add</button>
+                </section>
+
+                <section class="output">
+                    <ul class="task-list">
+                        <h5 style="text-align: center">No tasks yet...</h5>
+                    </ul>
+                </section>
+
+                <div class="edit-menu-container">
+                    <div class="edit-menu">
+                        <button class="btn btn-icon btn-close" onclick="TODO.editMenu.buttonPressed('closed');">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <input class="nameInput edit-item" type="text" />
+                        <label class="primary-slider-label edit-item"
+                            >Priority: Normal<input type="range" id="prioritySlider" min="0" max="3" /> High</label
+                        >
+                        <br />
+                        <textarea id="notesTextarea" class="notesTextarea edit-item" placeholder="notes"></textarea>
+                        <div class="add-link-container">
+                            <input type="url" class="linkInput edit-item" id="linkInput" placeholder="Link" />
+                            <button class="btn btn-primary" onclick="TODO.editMenu.linkList.add()">add</button>
+                        </div>
+                        <div class="link-list" style="margin-top: 10px">
+                            <ul></ul>
+                        </div>
+                        <div class="btn-group">
+                            <button
+                                class="btn btn-delete"
+                                style="float: left"
+                                onclick="TODO.editMenu.buttonPressed('delete');"
+                            >
+                                delete
+                            </button>
+                            <button class="btn" style="color: white" onclick="TODO.editMenu.buttonPressed('closed');">
+                                cancel
+                            </button>
+                            <button class="btn btn-complete btn-done" onclick="TODO.editMenu.buttonPressed('done');">
+                                Done
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>
