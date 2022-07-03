@@ -60,6 +60,7 @@ export class AppComponent implements AfterViewInit {
         const progressDecimal = await getProgressRecursive(this.activeTaskList.list);
         this.listProgress = progressDecimal;
 
+        // @FIXME: this made the e2e test fail at some point (activeTaskList = undefined), which is werid because it shouldn't
         const completedCount = progressDecimal * this.activeTaskList.list.length;
         this.completedTasksCount = completedCount;
     }
